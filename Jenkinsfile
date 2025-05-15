@@ -9,7 +9,7 @@ pipeline {
     }
      environment{
         def appVersion = '' //variable declaration
-
+         nexusUrl = 'nexus.manisha97.site:8081'
     }
 
     stages {
@@ -42,8 +42,32 @@ pipeline {
                 """
             }
         }
+        
+        stage('Nexus Artifact Upload'){
+            steps{
+                script{
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: "${nexusUrl}",
+                        groupId: 'com.expense',
+                        version: "${appVersion}",
+                        repository: "backend",
+                        credentialsId: 'nexus-auth',
+                        artifacts: [
+                            [artifactId: "backend" ,
+                            classifier: '',
+                            file: "backend-" + "${appVersion}" + '.zip',
+                            type: 'zip']
+                        ]
+                    )
+                }
+            }
+        } 
+
 
     }
+
          post 
          { 
         always { 
