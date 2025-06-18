@@ -1,4 +1,4 @@
 apiVersion: v1
 name: backend
-version: 0.0.1
+version: 0.0.2
 description: this is the helm implementation of backend in expense project
